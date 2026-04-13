@@ -8,19 +8,45 @@ font pango:JetBrainsMono Nerd Font 8
 # =============================================
 # AUTOSTART
 # =============================================
+
+# Autostart apps from .desktop files
 exec --no-startup-id dex --autostart --environment i3
+
+# Lock screen before suspend (xss-lock listens for systemd sleep signals)
 exec --no-startup-id xss-lock --transfer-sleep-lock -- betterlockscreen -l dim --nofork
+
+# Screen timeout: 5 minutes to turn off display
 exec --no-startup-id xset dpms 300 300 300
 exec --no-startup-id xset s 300
+
+# Network manager applet (runs in background for wifi-menu script)
 exec --no-startup-id nm-applet
+
+# Force monitor resolution
 exec --no-startup-id xrandr --output eDP --mode 1920x1080
+
+# Wallpaper
 exec --no-startup-id feh --bg-fill ~/Pictures/Wallpaper/wallpaper_rato.png
+
+# Status bar
 exec_always --no-startup-id ~/.config/polybar/launch.sh
+
+# Compositor (rounded corners, opacity, shadows)
 exec_always --no-startup-id picom --config ~/.config/picom/picom.conf
+
+# Auto split direction based on window size
 exec_always --no-startup-id autotiling
+
+# Bluetooth applet
 exec --no-startup-id blueman-applet
+
+# Notification daemon
 exec --no-startup-id dunst
+
+# Clipboard manager
 exec --no-startup-id greenclip daemon
+
+# Keyboard layout toggle (US/BR) - sleep needed because something overrides on login
 exec_always --no-startup-id sleep 2 && setxkbmap -layout us,br -option "" -option grp:alt_shift_toggle
 
 # =============================================
@@ -84,10 +110,12 @@ bindsym $mod+Ctrl+r mode "resize"
 
 # --- Screenshots ---
 bindsym Print exec flameshot gui
-# Copia fullscreen
-bindsym $mod+Print exec scrot - | xclip -selection clipboard -t image/png
+
+# Copia fullscreen pro clipboard
+bindsym $mod+Print exec --no-startup-id scrot /tmp/screenshot.png && xclip -selection clipboard -t image/png /tmp/screenshot.png && notify-send "Screenshot" "Copiado pro clipboard"
+
 # Salva fullscreen
-bindsym $mod+Shift+Print exec scrot ~/Pictures/screenshot_%Y%m%d_%H%M%S.png
+bindsym $mod+Shift+Print exec --no-startup-id scrot ~/Pictures/Screenshots/screenshot_%Y%m%d_%H%M%S.png && notify-send "Screenshot" "Salvo em ~/Pictures/Screenshots"
 
 # --- Sistema ---
 bindsym $mod+Shift+c reload

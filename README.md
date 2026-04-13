@@ -24,7 +24,9 @@ wallpapers/                # Wallpaper(s)
 
 ## Screenshots
 
-<!-- Add screenshots here -->
+![desktop](screenshots/desktop.png)
+![fastfetch](screenshots/fastfetch.png)
+![tiling](screenshots/tiling.png)
 
 ## Dependencies
 
