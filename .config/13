@@ -1,0 +1,208 @@
+# =============================================
+# i3 CONFIG — Tiago (Notebook Mint)
+# =============================================
+
+set $mod Mod4
+font pango:JetBrainsMono Nerd Font 8
+
+# =============================================
+# AUTOSTART
+# =============================================
+
+# Numlock ON on start
+exec --no-startup-id numlockx on
+
+# Autostart apps from .desktop files
+exec --no-startup-id dex --autostart --environment i3
+
+# Lock screen before suspend (xss-lock listens for systemd sleep signals)
+exec --no-startup-id xss-lock --transfer-sleep-lock -- betterlockscreen -l dim --nofork
+
+# Screen timeout: 5 minutes to turn off display
+exec --no-startup-id xset dpms 300 300 300
+exec --no-startup-id xset s 300
+
+# Network manager applet (runs in background for wifi-menu script)
+exec --no-startup-id nm-applet
+
+# Force monitor resolution
+exec --no-startup-id xrandr --output eDP --mode 1920x1080
+
+# Wallpaper
+exec --no-startup-id feh --bg-fill ~/Pictures/Wallpaper/wallpaper_rato.png
+
+# Status bar
+exec_always --no-startup-id ~/.config/polybar/launch.sh
+
+# Compositor (rounded corners, opacity, shadows)
+exec_always --no-startup-id picom --config ~/.config/picom/picom.conf
+
+# Auto split direction based on window size
+exec_always --no-startup-id autotiling
+
+# Bluetooth applet
+exec --no-startup-id blueman-applet
+
+# Notification daemon
+exec --no-startup-id dunst
+
+# Clipboard manager
+exec --no-startup-id greenclip daemon
+
+# Keyboard layout toggle (US/BR) - sleep needed because something overrides on login
+exec_always --no-startup-id sleep 2 && setxkbmap -layout us,br -option "" -option grp:alt_shift_toggle
+
+# =============================================
+# KEYBINDS
+# =============================================
+
+# --- Apps ---
+bindsym $mod+Return exec alacritty
+bindsym $mod+d exec --no-startup-id rofi -show drun -theme /usr/share/rofi/themes/Arc-Dark.rasi
+bindsym $mod+f exec firefox
+bindsym $mod+e exec nemo
+bindsym $mod+a exec pavucontrol
+bindsym $mod+r exec alacritty -e ranger
+bindsym $mod+c exec --no-startup-id rofi -modi "clipboard:greenclip print" -show clipboard -theme /usr/share/rofi/themes/Arc-Dark.rasi
+bindsym $mod+p exec ~/.config/rofi/power-menu.sh
+
+# --- Janelas ---
+bindsym $mod+Shift+q kill
+bindsym Mod1+F4 kill
+bindsym F11 fullscreen toggle
+bindsym $mod+Shift+f floating toggle
+bindsym $mod+space focus mode_toggle
+bindsym $mod+period focus parent
+
+# --- Scratchpad ---
+bindsym $mod+minus move scratchpad
+bindsym $mod+equal scratchpad show
+
+
+# --- Foco ---
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+# --- Mover janela ---
+bindsym $mod+Ctrl+Left move left
+bindsym $mod+Ctrl+Down move down
+bindsym $mod+Ctrl+Up move up
+bindsym $mod+Ctrl+Right move right
+
+# --- Layouts ---
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+t layout toggle split
+
+# --- Lock ---
+bindsym $mod+l exec betterlockscreen -l dim
+
+# --- Resize ---
+mode "resize" {
+        bindsym Left resize shrink width 10 px or 10 ppt
+        bindsym Down resize grow height 10 px or 10 ppt
+        bindsym Up resize shrink height 10 px or 10 ppt
+        bindsym Right resize grow width 10 px or 10 ppt
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
+        bindsym $mod+Ctrl+r mode "default"
+}
+bindsym $mod+Ctrl+r mode "resize"
+
+# --- Screenshots ---
+bindsym Print exec flameshot gui
+
+# Copia fullscreen pro clipboard
+bindsym $mod+Print exec --no-startup-id scrot /tmp/screenshot.png && xclip -selection clipboard -t image/png /tmp/screenshot.png && notify-send "Screenshot" "Copiado pro clipboard"
+
+# Salva fullscreen
+bindsym $mod+Shift+Print exec --no-startup-id scrot ~/Pictures/Screenshots/screenshot_%Y%m%d_%H%M%S.png && notify-send "Screenshot" "Salvo em ~/Pictures/Screenshots"
+
+# --- Sistema ---
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Sair do i3?' -B 'Sim' 'i3-msg exit'"
+
+# --- Brilho ---
+bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
+bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
+
+# ---Gaming---
+bindsym Mod1+Tab workspace back_and_forth
+
+# =============================================
+# WORKSPACES
+# =============================================
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+# =============================================
+# VOLUME
+# =============================================
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+ --limit 1.5
+bindsym XF86AudioLowerVolume exec --no-startup-id wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+bindsym XF86AudioMute exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym XF86AudioMicMute exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+
+# =============================================
+# VISUAL
+# =============================================
+gaps inner 10
+gaps outer 5
+gaps top 45
+
+default_border pixel 1
+default_floating_border pixel 1
+for_window [class=".*"] border pixel 1
+
+# Dracula
+client.focused          #6272a4 #6272a4 #f8f8f2 #6272a4   #6272a4
+client.focused_inactive #44475a #44475a #f8f8f2 #44475a   #44475a
+client.unfocused        #282a36 #282a36 #bfbfbf #282a36   #282a36
+client.urgent           #ff5555 #ff5555 #f8f8f2 #ff5555   #ff5555
+
+# --- Regras por janela ---
+for_window [class="Pavucontrol"] floating enable
+for_window [class="Polybar"] floating enable
+for_window [class="Blueman-manager"] floating enable
+for_window [class="Gnome-calculator"] floating enable
+
+# =============================================
+# MISC
+# =============================================
+floating_modifier $mod
+tiling_drag modifier titlebar
+
