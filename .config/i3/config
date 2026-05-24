@@ -9,6 +9,9 @@ font pango:JetBrainsMono Nerd Font 8
 # AUTOSTART
 # =============================================
 
+# Numlock ON on start
+exec --no-startup-id numlockx on
+
 # Autostart apps from .desktop files
 exec --no-startup-id dex --autostart --environment i3
 
@@ -126,6 +129,9 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Sair do i3?' -B 'Sim' 'i3-ms
 bindsym XF86MonBrightnessUp exec --no-startup-id brightnessctl set +5%
 bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%-
 
+# ---Gaming---
+bindsym Mod1+Tab workspace back_and_forth
+
 # =============================================
 # WORKSPACES
 # =============================================
@@ -199,3 +205,4 @@ for_window [class="Gnome-calculator"] floating enable
 # =============================================
 floating_modifier $mod
 tiling_drag modifier titlebar
+
